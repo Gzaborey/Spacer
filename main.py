@@ -12,9 +12,7 @@ if __name__ == '__main__':
     # Initialize BackgroundChanger object
     changer = Spacer(model)
 
-    cap = cv2.VideoCapture(0)
-    suc, image = cap.read()
-    # image = cv2.imread('images/face.jpg')
+    image = cv2.imread('images/face.jpg')
     replacer = cv2.imread('replacements/image_space_1.jpg')
 
     image = cv2.resize(image, (160, 160))
