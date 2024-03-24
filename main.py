@@ -6,7 +6,7 @@ import time
 import os
 
 
-if __name__ == '__main__':
+def main():
     """
     Press Q to stop the execution of a program.
     """
@@ -20,23 +20,24 @@ if __name__ == '__main__':
     # Initialize BackgroundChanger object
     changer = Spacer(model)
 
+    # Initializing replacer
     replacements_files = os.listdir('replacements')
     replacer_path = os.path.join('replacements', np.random.choice(replacements_files))
     replacer = cv2.imread(replacer_path)
     replacer = cv2.resize(replacer, (resize_scale, resize_scale))
+    replacer_rgb = cv2.cvtColor(replacer, cv2.COLOR_BGR2RGB)
 
     # Initialize variable for FPS tracking
     prev_frame_time = 0
 
     cap = cv2.VideoCapture(0)
-
     while True:
         success, image = cap.read()
         image = cv2.resize(image, (resize_scale, resize_scale))
         image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         # Starting the program
-        changed_image = changer(image_rgb, replacer).astype(np.uint8)
+        changed_image = changer(image_rgb, replacer_rgb).astype(np.uint8)
         changed_image = cv2.cvtColor(changed_image, cv2.COLOR_RGB2BGR)
 
         # Calculating the FPS
@@ -73,3 +74,7 @@ if __name__ == '__main__':
 
     # Destroy all windows
     cv2.destroyAllWindows()
+
+
+if __name__ == '__main__':
+    main()
