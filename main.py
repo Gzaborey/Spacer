@@ -6,6 +6,16 @@ import time
 import os
 
 
+def load_replacer(replacer_dir_path: str, resize_scale: int) -> np.ndarray:
+    # Initializing replacer
+    replacements_files = os.listdir(replacer_dir_path)
+    replacer_path = os.path.join(replacer_dir_path, np.random.choice(replacements_files))
+    replacer = cv2.imread(replacer_path)
+    replacer = cv2.resize(replacer, (resize_scale, resize_scale))
+    replacer_rgb = cv2.cvtColor(replacer, cv2.COLOR_BGR2RGB)
+    return replacer_rgb
+
+
 def main():
     """
     Press Q to stop the execution of a program.
@@ -21,11 +31,8 @@ def main():
     changer = Spacer(model)
 
     # Initializing replacer
-    replacements_files = os.listdir('replacements')
-    replacer_path = os.path.join('replacements', np.random.choice(replacements_files))
-    replacer = cv2.imread(replacer_path)
-    replacer = cv2.resize(replacer, (resize_scale, resize_scale))
-    replacer_rgb = cv2.cvtColor(replacer, cv2.COLOR_BGR2RGB)
+    replacer_dir_path = 'replacements'
+    replacer_rgb = load_replacer(replacer_dir_path, resize_scale)
 
     # Initialize variable for FPS tracking
     prev_frame_time = 0
